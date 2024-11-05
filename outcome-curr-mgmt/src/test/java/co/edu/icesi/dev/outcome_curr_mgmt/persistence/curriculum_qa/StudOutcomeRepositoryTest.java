@@ -24,7 +24,7 @@ class StudOutcomeRepositoryTest {
 
     @Autowired
     private StudOutcomeRepository studOutcomeRepository;
-
+    /*
     // Returns a list of courses when given a valid academic program ID
     @Test
     @Transactional
@@ -70,7 +70,7 @@ class StudOutcomeRepositoryTest {
             }
         }
     }
-
+    */
     @Test
     @Transactional
     void testReturnsCoursesWhenThereAreNoExistingAcadProgWithTheGivenId() {

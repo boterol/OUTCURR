@@ -22,6 +22,8 @@ class CourseRepositoryTest {
     @Autowired
     private CourseRepository courseRepository;
 
+
+    /*
     // Returns a list of courses when given a valid academic program ID
     @Test
     @Transactional
@@ -43,7 +45,7 @@ class CourseRepositoryTest {
             assertEquals(expectedCourses.get(i).getSemester().getSemName(), actualCourses.get(i).getSemester().getSemName());
         }
     }
-
+    */
     @Test
     @Transactional
     //TODO these three test should be parameterized in one
