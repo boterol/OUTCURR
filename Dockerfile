@@ -26,7 +26,7 @@ RUN mvn clean install -DskipTests
 
 
 # Use a smaller image for the runtime
-FROM eclipse-temurin:17-jre-slim
+FROM eclipse-temurin:17-jre
 #
 # Set the working directory
 WORKDIR /app
