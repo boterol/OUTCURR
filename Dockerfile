@@ -1,4 +1,4 @@
-FROM maven:3.8.6-openjdk-17 AS build
+FROM maven:3.8.8-eclipse-temurin-17 AS build
 
 # Set the working directory
 WORKDIR /app
@@ -6,6 +6,7 @@ WORKDIR /app
 # Copy app source
 COPY . .
 
+# esto por si el mvnw no se crea que con este pasa pero con saamfi no
 RUN mvn -N io.takari:maven:wrapper
 
 # Make sure the mvnw script is executable
@@ -25,7 +26,7 @@ RUN mvn clean install -DskipTests
 
 
 # Use a smaller image for the runtime
-FROM openjdk:17
+FROM eclipse-temurin:17-jre-slim
 #
 # Set the working directory
 WORKDIR /app
