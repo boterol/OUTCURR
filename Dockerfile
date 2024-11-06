@@ -21,7 +21,7 @@ RUN mvn install:install-file \
     -Dpackaging=jar
 
 # Compile and package the Spring Boot application
-RUN mvn install -Dmaven.test.skip=true
+RUN mvn clean install -DskipTests
 
 
 # Use a smaller image for the runtime
