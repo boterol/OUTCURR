@@ -25,7 +25,7 @@ RUN mvn clean install -DskipTests
 
 
 # Use a smaller image for the runtime
-FROM openjdk:17-jre-slim
+FROM openjdk:17
 #
 # Set the working directory
 WORKDIR /app
