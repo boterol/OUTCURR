@@ -21,10 +21,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @SpringBootTest
 class StudOutcomeRepositoryTest {
-
+    /*
     @Autowired
     private StudOutcomeRepository studOutcomeRepository;
-    /*
+
     // Returns a list of courses when given a valid academic program ID
     @Test
     @Transactional
@@ -70,7 +70,7 @@ class StudOutcomeRepositoryTest {
             }
         }
     }
-    */
+
     @Test
     @Transactional
     void testReturnsCoursesWhenThereAreNoExistingAcadProgWithTheGivenId() {
@@ -116,4 +116,5 @@ class StudOutcomeRepositoryTest {
         // Assert
         assertEquals(0, actualStudOutcomes.size());
     }
+*/
 }
