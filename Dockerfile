@@ -6,6 +6,8 @@ WORKDIR /app
 # Copy app source
 COPY . .
 
+RUN mvn -N io.takari:maven:wrapper
+
 # Make sure the mvnw script is executable
 RUN chmod +x mvnw
 
