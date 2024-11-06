@@ -1,4 +1,4 @@
-FROM maven:3.8.6-openjdk-11 AS build
+FROM maven:3.8.6-openjdk-17 AS build
 
 # Set the working directory
 WORKDIR /app
@@ -25,7 +25,7 @@ RUN mvn clean install -DskipTests
 
 
 # Use a smaller image for the runtime
-FROM openjdk:11-jre-slim
+FROM openjdk:17-jre-slim
 #
 # Set the working directory
 WORKDIR /app
