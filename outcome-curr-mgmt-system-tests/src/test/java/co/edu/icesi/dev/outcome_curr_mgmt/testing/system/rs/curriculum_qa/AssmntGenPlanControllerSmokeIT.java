@@ -111,6 +111,7 @@ public class AssmntGenPlanControllerSmokeIT extends BaseSmokeIT {
     }
 
 
+
     @Test
     void testUpdateAssmtGenPlanSuccess() {
         TestRestTemplate testRestTemplate = new TestRestTemplate();
@@ -132,7 +133,19 @@ public class AssmntGenPlanControllerSmokeIT extends BaseSmokeIT {
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
+    @Test
+    void testDeleteAssmtGenPlanSuccess() {
+        TestRestTemplate testRestTemplate = new TestRestTemplate();
+        HttpEntity<Void> entity = new HttpEntity<>(getRequestHeaders());
 
+        ResponseEntity<Void> response = testRestTemplate.exchange(
+                server + "/v1/auth/faculties/1/acad_programs/1/assessemnt_plans/1",  // Id existente
+                HttpMethod.DELETE,
+                entity,
+                Void.class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
 
 
 
