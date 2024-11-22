@@ -1,5 +1,6 @@
 package co.edu.icesi.dev.outcome_curr_mgmt.testing.system.rs.curriculum_qa;
 
+import co.edu.icesi.dev.outcome_curr.mgmt.model.stdindto.curriculum_qa.AssmtGenPlanInDTO;
 import co.edu.icesi.dev.outcome_curr.mgmt.model.stdoutdto.faculty.FacultyOutDTO;
 import co.edu.icesi.dev.outcome_curr.mgmt.rs.banner.BannerFacultyImportController;
 import co.edu.icesi.dev.outcome_curr_mgmt.testing.system.rs.util.BaseSmokeIT;
@@ -64,6 +65,76 @@ public class AssmntGenPlanControllerSmokeIT extends BaseSmokeIT {
         assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
         assertNotNull(response.getBody());
     }
+
+    @Test
+    void testUpdateAssmtGenPlanNotFound() {
+        TestRestTemplate testRestTemplate = new TestRestTemplate();
+        AssmtGenPlanInDTO updatedPlan = AssmtGenPlanInDTO.builder()
+                .startAcadPeriod(2023L)
+                .endAcadPeriod(2025L)
+                .numberCycles(3L)
+                .subCyclesPerCycles(5L)
+                .build();
+
+        HttpEntity<AssmtGenPlanInDTO> entity = new HttpEntity<>(updatedPlan, getRequestHeaders());
+
+        ResponseEntity<String> response = testRestTemplate.exchange(
+                server + "/v1/auth/faculties/1/acad_programs/1/assessemnt_plans/9999",  // Id inexistente
+                HttpMethod.PUT,
+                entity,
+                String.class);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+
+
+    @Test
+    void testCreateAssmtGenPlanUnauthorized() {
+        TestRestTemplate testRestTemplate = new TestRestTemplate();
+        HttpHeaders headers = new HttpHeaders();  // Sin autorización (sin JWT)
+        AssmtGenPlanInDTO planInDTO = AssmtGenPlanInDTO.builder()
+                .startAcadPeriod(2023L)
+                .endAcadPeriod(2024L)
+                .numberCycles(2L)
+                .subCyclesPerCycles(4L)
+                .build();
+
+        HttpEntity<AssmtGenPlanInDTO> entity = new HttpEntity<>(planInDTO, headers);
+
+        ResponseEntity<String> response = testRestTemplate.postForEntity(
+                server + "/v1/auth/faculties/1/acad_programs/1/assessemnt_plans",
+                entity,
+                String.class);
+
+        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+    }
+
+
+    @Test
+    void testUpdateAssmtGenPlanSuccess() {
+        TestRestTemplate testRestTemplate = new TestRestTemplate();
+        AssmtGenPlanInDTO updatedPlan = AssmtGenPlanInDTO.builder()
+                .startAcadPeriod(2023L)
+                .endAcadPeriod(2025L)
+                .numberCycles(3L)
+                .subCyclesPerCycles(5L)
+                .build();
+
+        HttpEntity<AssmtGenPlanInDTO> entity = new HttpEntity<>(updatedPlan, getRequestHeaders());
+
+        ResponseEntity<Void> response = testRestTemplate.exchange(
+                server + "/v1/auth/faculties/1/acad_programs/1/assessemnt_plans/1",
+                HttpMethod.PUT,
+                entity,
+                Void.class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+
+
+
 
     private HttpHeaders getRequestHeaders() {
         String token = "Bearer " + testUserJWTToken;
