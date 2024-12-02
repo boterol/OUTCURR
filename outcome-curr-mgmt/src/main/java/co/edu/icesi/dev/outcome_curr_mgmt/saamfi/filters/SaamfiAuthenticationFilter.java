@@ -52,6 +52,9 @@ public class SaamfiAuthenticationFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request,@Nonnull HttpServletResponse response, @Nonnull  FilterChain filterChain)
 			throws ServletException, IOException {
+
+		String requestURI = request.getRequestURI();
+
 		String header = request.getHeader(HEADER_STRING);
 		String username = null;
 		String authToken = null;
