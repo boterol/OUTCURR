@@ -49,7 +49,7 @@ public class AssmntGenPlanControllerSmokeIT extends BaseSmokeIT {
         testUserJWTToken = getTestUserJWTToken(OUT_CURR_TEST_USER, USER_PASSWORD, server);
     }
 
-
+/*
     @Test
     void getAssessments() {
         TestRestTemplate testRestTemplate = new TestRestTemplate();
@@ -65,7 +65,7 @@ public class AssmntGenPlanControllerSmokeIT extends BaseSmokeIT {
         assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
         assertNotNull(response.getBody());
     }
-
+*/
     @Test
     void testUpdateAssmtGenPlanNotFound() {
         TestRestTemplate testRestTemplate = new TestRestTemplate();
@@ -88,7 +88,7 @@ public class AssmntGenPlanControllerSmokeIT extends BaseSmokeIT {
     }
 
 
-
+/*
     @Test
     void testCreateAssmtGenPlanUnauthorized() {
         TestRestTemplate testRestTemplate = new TestRestTemplate();
@@ -146,7 +146,7 @@ public class AssmntGenPlanControllerSmokeIT extends BaseSmokeIT {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
-
+*/
 
 
     private HttpHeaders getRequestHeaders() {

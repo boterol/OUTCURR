@@ -1,0 +1,29 @@
+<configuration>
+
+    <!-- Define an encoder to format logs in JSON -->
+    <appender name="LOKI" class="com.github.loki.logback.LokiAppender">
+        <url>http://loki:3100/loki/api/v1/push</url> <!-- Replace with your Loki URL -->
+        <queueSize>1000</queueSize>
+        <batchSize>100</batchSize>
+        <appName>spring-boot-application</appName>
+
+        <!-- Log in JSON format -->
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <timestampPattern>yyyy-MM-dd'T'HH:mm:ss.SSSZ</timestampPattern>
+        </encoder>
+    </appender>
+
+    <!-- Console appender to also log to console (optional) -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Log Levels -->
+    <root level="INFO">
+        <appender-ref ref="LOKI"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+</configuration>

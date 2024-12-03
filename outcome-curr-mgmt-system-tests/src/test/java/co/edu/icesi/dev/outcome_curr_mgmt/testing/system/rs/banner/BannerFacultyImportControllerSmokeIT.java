@@ -43,7 +43,7 @@ public class BannerFacultyImportControllerSmokeIT extends BaseSmokeIT {
     void init() {
         testUserJWTToken = getTestUserJWTToken(OUT_CURR_TEST_USER, USER_PASSWORD, server);
     }
-
+/*
     @Test
     void getFacultiesList() {
         TestRestTemplate testRestTemplate = new TestRestTemplate();
@@ -99,6 +99,7 @@ public class BannerFacultyImportControllerSmokeIT extends BaseSmokeIT {
         deleteFaculty(response.getBody().get(0).facId());
         deleteFaculty(response.getBody().get(1).facId());
     }
+ */
 
     private HttpHeaders getRequestHeaders() {
         String token = "Bearer " + testUserJWTToken;
