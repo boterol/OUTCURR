@@ -107,25 +107,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-        <!-- Spring Boot starter for logging (logback is used by default) -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-logging</artifactId>
-        </dependency>
-
-        <!-- Logstash encoder for JSON log formatting -->
-        <dependency>
-            <groupId>net.logstash.logback</groupId>
-            <artifactId>logstash-logback-encoder</artifactId>
-            <version>7.0</version> <!-- Use the latest version -->
-        </dependency>
-        <!-- Loki Logback Appender -->
-        <!-- https://mvnrepository.com/artifact/com.github.loki4j/loki-logback-appender -->
-        <dependency>
-            <groupId>com.github.loki4j</groupId>
-            <artifactId>loki-logback-appender</artifactId>
-            <version>1.6.0-rc1</version>
-        </dependency>
     </dependencies>
     <build>
         <plugins>
