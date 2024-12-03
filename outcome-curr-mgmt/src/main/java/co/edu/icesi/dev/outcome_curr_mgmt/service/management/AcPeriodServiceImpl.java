@@ -9,9 +9,14 @@ import co.edu.icesi.dev.outcome_curr_mgmt.model.entity.management.AcPeriod;
 import co.edu.icesi.dev.outcome_curr_mgmt.model.enums.ChangeLogAction;
 import co.edu.icesi.dev.outcome_curr_mgmt.persistence.management.AcPeriodRepository;
 import co.edu.icesi.dev.outcome_curr_mgmt.service.audit.ChangeLogServiceImpl;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.Meter;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +36,7 @@ public class AcPeriodServiceImpl implements AcPeriodService {
     private final ChangeLogServiceImpl changeLogService;
     
     private static final String ACPERIOD = "AcPeriod";
+
 
     @Transactional
     @Override

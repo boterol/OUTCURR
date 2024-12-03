@@ -14,20 +14,37 @@ import co.edu.icesi.dev.outcome_curr_mgmt.service.perm_types.faculty.AcadProgram
 import co.edu.icesi.dev.outcome_curr_mgmt.service.provider.faculty.AcadProgramProvider;
 import co.edu.icesi.dev.outcome_curr_mgmt.service.validator.faculty.AcadProgramValidator;
 import co.edu.icesi.dev.outcome_curr_mgmt.service.validator.faculty.UserPermAccess;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static co.edu.icesi.dev.outcome_curr_mgmt.service.perm_types.faculty.AcadProgramPermType.AcadProgramPermStatus.CURRENT;
-
+@Component
 @Service
 @RequiredArgsConstructor
 public class PerfLvlServiceImpl implements PerfLvlService {
+    // Inyección del MeterRegistry proporcionado por Spring
+    private final MeterRegistry meterRegistry;
 
+    // Contador creado con el MeterRegistry inyectado
+    private Counter academicPeriodGetterCounter;
+    private Timer academicPeriodGetterTimer;
+    @PostConstruct
+    public void init() {
+        this.academicPeriodGetterCounter = meterRegistry.counter("ac_period_getter_counter");
+        this.academicPeriodGetterTimer = meterRegistry.timer("ac_period_getter_timer");
+    }
     private static final Logger logger = LoggerFactory.getLogger(PerfLvlServiceImpl.class);
     private final PerfLvlRepository perfLvlRepository;
     private final PerfLvlMapper perfLvlMapper;
@@ -40,7 +57,6 @@ public class PerfLvlServiceImpl implements PerfLvlService {
     @Transactional
     @Override
     public PerfLvlOutDTO addPerfLvl(PerfLvlInDTO perfLvlInDTO, long acadProgId,long facultyId) {
-
         logger.info("Creating a performance level");
 
         validateAccess(facultyId, acadProgId, UserPermAccess.ADMIN,CURRENT);
@@ -177,15 +193,18 @@ public class PerfLvlServiceImpl implements PerfLvlService {
     @Transactional
     @Override
     public List<PerfLvlOutDTO> getAllPerfLvls(long acadProgId, long facultyId) {
+        academicPeriodGetterCounter.increment();
+        List<PerfLvlOutDTO> empty = new ArrayList<>();
+        return academicPeriodGetterTimer.record(() -> {
+            logger.info("Obtaining all performance levels of an academic program");
+            validateAccess(facultyId, acadProgId, UserPermAccess.QUERY,getAcadProgramPermStatus(acadProgId));
+            validateStructure(facultyId,acadProgId);
 
-        logger.info("Obtaining all performance levels of an academic program");
-        validateAccess(facultyId, acadProgId, UserPermAccess.QUERY,getAcadProgramPermStatus(acadProgId));
-        validateStructure(facultyId,acadProgId);
+            List<PerfLvlOutDTO> perfLvls=perfLvlRepository.findAllByAcadProgramAcpId(acadProgId).stream().map(perfLvlMapper::fromPerfLvl).toList();
 
-        List<PerfLvlOutDTO> perfLvls=perfLvlRepository.findAllByAcadProgramAcpId(acadProgId).stream().map(perfLvlMapper::fromPerfLvl).toList();
+            logger.info("Performance levels obtained");
 
-        logger.info("Performance levels obtained");
-
-        return perfLvls;
+            return perfLvls;
+        });
     }
 }

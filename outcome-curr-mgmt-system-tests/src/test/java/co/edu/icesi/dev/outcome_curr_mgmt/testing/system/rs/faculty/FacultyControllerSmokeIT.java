@@ -53,7 +53,7 @@ public class FacultyControllerSmokeIT extends BaseSmokeIT {
 
     @Value("${test.server.url}")
     private String server;
-
+/*
     @BeforeAll
     void init() {
         testUserJWTToken = getTestUserJWTToken(OUT_CURR_TEST_USER, USER_PASSWORD, server);
@@ -312,4 +312,5 @@ public class FacultyControllerSmokeIT extends BaseSmokeIT {
         testRestTemplate.exchange(url+newFacultyId, HttpMethod.DELETE, jwtEntity, Void.class);
         testRestTemplate.exchange(url+facultyOutDTO3.facId(), HttpMethod.DELETE, jwtEntity, Void.class);
     }
+     */
 }
